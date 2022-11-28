@@ -1,23 +1,40 @@
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
+import { Line } from 'react-chartjs-2';
+import Chart from 'chart.js/auto';
+
+
 import './App.css';
 
 function App() {
+  let [reportsData, setData] = useState([])
+  useEffect(() => {
+    async function fetchData(){
+      let data = await fetch("http://localhost:8000/")
+      let response = await data.json()
+      setData(response.reportsPerDay)
+      console.log(response.reportsPerDay)
+    }
+    fetchData()
+  }, [])
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <Line
+  datasetIdKey='id'
+  data={{
+    labels: ['1 November', '2 November', '3 November','4 November', '5 November', '6 November'],
+    datasets: [
+      {
+        label: 'Reports Per Day',
+        data: reportsData,
+        borderColor: "red",
+        backgroundColor: "brown",
+        pointStyle: 'circle',
+        pointRadius: 10,
+        pointHoverRadius: 15
+      },
+    ],
+  }}
+/>
     </div>
   );
 }
