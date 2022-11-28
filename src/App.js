@@ -9,7 +9,7 @@ function App() {
   let [reportsData, setData] = useState([])
   useEffect(() => {
     async function fetchData(){
-      let data = await fetch("http://localhost:8000/")
+      let data = await fetch("https://report-generation-chart.onrender.com")
       let response = await data.json()
       setData(response.reportsPerDay)
       console.log(response.reportsPerDay)
